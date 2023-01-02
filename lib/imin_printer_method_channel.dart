@@ -14,4 +14,9 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
+
+  @override
+  Future<String?> initPrinter() async {
+    return await methodChannel.invokeMethod<String>('initPrinter');
+  }
 }
