@@ -7,13 +7,11 @@ class IminPrinter {
   }
 
   Future<void> initPrinter() async {
-    //TODO IMPLEMENT INIT
     IminPrinterPlatform.instance.initPrinter();
   }
 
   Future<String> getStatus() async {
-    //TODO
-    throw UnimplementedError('ERROR');
+    return IminPrinterPlatform.instance.getStatus();
   }
 
   Future<void> printBytes(List<int> bytes) async {

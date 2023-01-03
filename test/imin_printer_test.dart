@@ -10,6 +10,12 @@ class MockIminPrinterPlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<String?> initPrinter() => Future.value('init');
+
+  @override
+  Future<String> getStatus() => Future.value('active');
 }
 
 void main() {

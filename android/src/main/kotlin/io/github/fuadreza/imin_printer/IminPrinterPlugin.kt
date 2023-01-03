@@ -43,6 +43,9 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
       IminPrintUtils.getInstance(activity).initPrinter(connectType)
       result.success("init")
+    } else if (call.method == "getStatus") {
+      val status: Int = IminPrintUtils.getInstance(this@MainActivity).getPrinterStatus(connectType)
+      result.success(String.format("%d", status))
     } else {
       result.notImplemented()
     }

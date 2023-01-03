@@ -19,4 +19,9 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   Future<String?> initPrinter() async {
     return await methodChannel.invokeMethod<String>('initPrinter');
   }
+
+  @override
+  Future<String> getStatus() async {
+    return await methodChannel.invokeMethod<String>('getStatus') ?? 'invalid';
+  }
 }
