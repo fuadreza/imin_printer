@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import 'imin_printer_platform_interface.dart';
 
 class IminPrinter {
@@ -14,7 +16,7 @@ class IminPrinter {
     return IminPrinterPlatform.instance.getStatus();
   }
 
-  Future<void> printBytes(List<int> bytes) async {
+  Future<void> printBytes(Uint8List bytes) async {
     //TODO
     throw UnimplementedError('ERROR');
   }

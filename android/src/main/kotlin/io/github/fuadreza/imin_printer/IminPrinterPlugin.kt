@@ -14,6 +14,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.util.*
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -34,18 +35,29 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    val arguments: Map<String, Any>? = call.arguments()
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     } else if(call.method == "initPrinter") {
       val deviceModel = SystemPropManager.getModel()
       if (deviceModel.contains("M")) {
-        connectType = IminPrintUtils.PrintConnectType.SPI
+        connectType = PrintConnectType.SPI
       }
       IminPrintUtils.getInstance(activity).initPrinter(connectType)
       result.success("init")
     } else if (call.method == "getStatus") {
       val status: Int = IminPrintUtils.getInstance(activity).getPrinterStatus(connectType)
       result.success(String.format("%d", status))
+    } else if (call.method == "printBytes") {
+      if (arguments == null) return
+      val bytes = arguments["bytes"] as ByteArray?
+      if (bytes != null) {
+        val mIminPrintUtils: IminPrintUtils = IminPrintUtils.getInstance(activity)
+        mIminPrintUtils.sendRAWData(bytes)
+        result.success(bytes)
+      } else {
+        result.error("invalid_argument", "argument 'bytes' not found", null)
+      }
     } else {
       result.notImplemented()
     }
@@ -56,7 +68,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    activity = binding.activity;
+    activity = binding.activity
   }
 
   override fun onDetachedFromActivityForConfigChanges() {

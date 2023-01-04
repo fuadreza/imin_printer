@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'imin_printer_method_channel.dart';
@@ -32,6 +34,10 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   }
 
   Future<String> getStatus() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<String> printBytes(Uint8List bytes) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }
