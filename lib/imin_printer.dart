@@ -17,7 +17,6 @@ class IminPrinter {
   }
 
   Future<void> printBytes(Uint8List bytes) async {
-    //TODO
-    throw UnimplementedError('ERROR');
+    IminPrinterPlatform.instance.printBytes(bytes);
   }
 }
