@@ -19,4 +19,8 @@ class IminPrinter {
   Future<void> printBytes(Uint8List bytes) async {
     IminPrinterPlatform.instance.printBytes(bytes);
   }
+
+  Future<void> printText(String text) async {
+    IminPrinterPlatform.instance.printText(text);
+  }
 }

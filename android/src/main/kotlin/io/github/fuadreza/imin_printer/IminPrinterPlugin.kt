@@ -25,6 +25,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel : MethodChannel
   private lateinit var context: Context
   private lateinit var activity: Activity
+  private lateinit var instance: IminPrintUtils
 
   private var connectType = PrintConnectType.USB
 
@@ -44,20 +45,35 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         connectType = PrintConnectType.SPI
       }
       IminPrintUtils.getInstance(activity).initPrinter(connectType)
+      instance = IminPrintUtils.getInstance(activity)
       result.success("init")
     } else if (call.method == "getStatus") {
-      val status: Int = IminPrintUtils.getInstance(activity).getPrinterStatus(connectType)
+      val status: Int = instance.getPrinterStatus(connectType)
       result.success(String.format("%d", status))
     } else if (call.method == "printBytes") {
       if (arguments == null) return
       val bytes = arguments["bytes"] as ByteArray?
       if (bytes != null) {
-        val mIminPrintUtils: IminPrintUtils = IminPrintUtils.getInstance(activity)
-        mIminPrintUtils.sendRAWData(bytes)
+        instance.sendRAWData(bytes)
         result.success(bytes)
       } else {
         result.error("invalid_argument", "argument 'bytes' not found", null)
       }
+    } else if (call.method == "printText") {
+      if (arguments == null) return
+      val text = arguments["text"] as String?
+      if (text != null) {
+        instance.printText(text)
+        result.success(text)
+      } else {
+        result.error("invalid_argument", "argument 'text' not found", null)
+      }
+    } else if (call.method == "setStyle") {
+      if (arguments == null) return
+      val textAlign = arguments["text_align"] as Int?
+      val textSize = arguments["text_size"] as Int?
+      val fontStyle = arguments["font_style"] as Int?
+
     } else {
       result.notImplemented()
     }

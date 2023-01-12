@@ -40,4 +40,8 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   Future<String> printBytes(Uint8List bytes) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<String> printText(String text) {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }

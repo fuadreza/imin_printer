@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imin_printer/imin_printer.dart';
 import 'package:imin_printer/imin_printer_platform_interface.dart';
@@ -16,6 +18,16 @@ class MockIminPrinterPlatform
 
   @override
   Future<String> getStatus() => Future.value('active');
+
+  @override
+  Future<String> printBytes(Uint8List bytes) {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> printText(String text) {
+    return Future.value(text);
+  }
 }
 
 void main() {
