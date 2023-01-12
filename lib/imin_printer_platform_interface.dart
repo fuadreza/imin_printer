@@ -44,4 +44,8 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   Future<String> printText(String text) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<String> printColumnsText(List<String> listText) {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }

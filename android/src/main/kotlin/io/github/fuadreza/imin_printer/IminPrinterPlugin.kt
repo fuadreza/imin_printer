@@ -2,11 +2,12 @@ package io.github.fuadreza.imin_printer
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import com.imin.library.SystemPropManager
 import com.imin.printerlib.IminPrintUtils
 import com.imin.printerlib.IminPrintUtils.PrintConnectType
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -14,7 +15,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import java.util.*
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -27,6 +27,9 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity: Activity
   private lateinit var instance: IminPrintUtils
 
+  //384=58mm
+  //576=80mm
+
   private var connectType = PrintConnectType.USB
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -35,6 +38,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     channel.setMethodCallHandler(this)
   }
 
+  @RequiresApi(Build.VERSION_CODES.M)
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     val arguments: Map<String, Any>? = call.arguments()
     if (call.method == "getPlatformVersion") {
@@ -65,6 +69,20 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (text != null) {
         instance.printText(text)
         result.success(text)
+      } else {
+        result.error("invalid_argument", "argument 'text' not found", null)
+      }
+    } else if (call.method == "printColumnsText") {
+      if (arguments == null) return
+      val arrayText = arguments["texts"] as ArrayList<*>?
+      if (arrayText != null) {
+        val listText: MutableList<String> = mutableListOf<String>()
+        arrayText.forEach { item ->
+          item as String?
+          listText.add(item)
+        }
+        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(26, 26))
+        result.success(arrayText)
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)
       }

@@ -28,6 +28,11 @@ class MockIminPrinterPlatform
   Future<String> printText(String text) {
     return Future.value(text);
   }
+
+  @override
+  Future<String> printColumnsText(List<String> listText) {
+    return Future.value(listText.first);
+  }
 }
 
 void main() {
