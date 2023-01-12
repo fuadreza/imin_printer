@@ -24,7 +24,7 @@ class IminPrinter {
     IminPrinterPlatform.instance.printText(text);
   }
 
-  Future<void> printColumnsText(List<String> listText) async {
-    IminPrinterPlatform.instance.printColumnsText(listText);
+  Future<void> print2ColumnsText(List<String> listText) async {
+    IminPrinterPlatform.instance.print2ColumnsText(listText);
   }
 }

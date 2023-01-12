@@ -72,7 +72,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)
       }
-    } else if (call.method == "printColumnsText") {
+    } else if (call.method == "print2ColumnsText") {
       if (arguments == null) return
       val arrayText = arguments["texts"] as ArrayList<*>?
       if (arrayText != null) {

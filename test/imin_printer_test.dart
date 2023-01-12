@@ -30,7 +30,7 @@ class MockIminPrinterPlatform
   }
 
   @override
-  Future<String> printColumnsText(List<String> listText) {
+  Future<String> print2ColumnsText(List<String> listText) {
     return Future.value(listText.first);
   }
 }
