@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:imin_printer/print_style.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'imin_printer_method_channel.dart';
@@ -30,22 +31,26 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   }
 
   Future<String?> initPrinter() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('initPrinter() has not been implemented.');
   }
 
   Future<String> getStatus() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('getStatus() has not been implemented.');
   }
 
   Future<String> printBytes(Uint8List bytes) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('printBytes() has not been implemented.');
   }
 
-  Future<String> printText(String text) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<String> printText(String text, PrintStyle printStyle) {
+    throw UnimplementedError('printText() has not been implemented.');
   }
 
   Future<String> print2ColumnsText(List<String> listText) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('print2ColumnsText() has not been implemented.');
+  }
+
+  Future<String> setStyle(PrintStyle printStyle) {
+    throw UnimplementedError('setStyle() has not been implemented.');
   }
 }

@@ -1,6 +1,8 @@
 
 import 'dart:typed_data';
 
+import 'package:imin_printer/print_style.dart';
+
 import 'imin_printer_platform_interface.dart';
 
 class IminPrinter {
@@ -20,11 +22,15 @@ class IminPrinter {
     IminPrinterPlatform.instance.printBytes(bytes);
   }
 
-  Future<void> printText(String text) async {
-    IminPrinterPlatform.instance.printText(text);
+  Future<void> printText(String text, {PrintStyle printStyle = const PrintStyle()}) async {
+    IminPrinterPlatform.instance.printText(text, printStyle);
   }
 
   Future<void> print2ColumnsText(List<String> listText) async {
     IminPrinterPlatform.instance.print2ColumnsText(listText);
+  }
+
+  Future<void> setStyle(PrintStyle printStyle) async {
+    IminPrinterPlatform.instance.setStyle(printStyle);
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:imin_printer/imin_printer.dart';
 import 'package:imin_printer/imin_printer_platform_interface.dart';
 import 'package:imin_printer/imin_printer_method_channel.dart';
+import 'package:imin_printer/print_style.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockIminPrinterPlatform
@@ -25,13 +26,18 @@ class MockIminPrinterPlatform
   }
 
   @override
-  Future<String> printText(String text) {
+  Future<String> printText(String text, PrintStyle printStyle) {
     return Future.value(text);
   }
 
   @override
   Future<String> print2ColumnsText(List<String> listText) {
     return Future.value(listText.first);
+  }
+
+  @override
+  Future<String> setStyle(PrintStyle printStyle) {
+    return Future.value('success');
   }
 }
 

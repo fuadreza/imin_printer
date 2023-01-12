@@ -91,7 +91,9 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       val textAlign = arguments["text_align"] as Int?
       val textSize = arguments["text_size"] as Int?
       val fontStyle = arguments["font_style"] as Int?
-
+      instance.setAlignment(textAlign ?: 0)
+      instance.setTextSize(textSize ?: 26)
+      instance.setTextStyle(fontStyle ?: 0)
     } else {
       result.notImplemented()
     }
