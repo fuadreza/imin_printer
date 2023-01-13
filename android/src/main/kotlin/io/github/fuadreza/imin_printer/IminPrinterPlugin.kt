@@ -48,8 +48,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (deviceModel.contains("M")) {
         connectType = PrintConnectType.SPI
       }
-      IminPrintUtils.getInstance(activity).initPrinter(connectType)
-      instance = IminPrintUtils.getInstance(activity)
+      instance.initPrinter(connectType)
       result.success("init")
     } else if (call.method == "getStatus") {
       val status: Int = instance.getPrinterStatus(connectType)
@@ -105,6 +104,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.activity
+    instance = IminPrintUtils.getInstance(activity)
   }
 
   override fun onDetachedFromActivityForConfigChanges() {
