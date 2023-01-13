@@ -88,9 +88,9 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     } else if (call.method == "setStyle") {
       if (arguments == null) return
-      val textAlign = arguments["text_align"] as Int?
-      val textSize = arguments["text_size"] as Int?
-      val fontStyle = arguments["font_style"] as Int?
+      val textAlign = arguments["textAlign"] as Int?
+      val textSize = arguments["textSize"] as Int?
+      val fontStyle = arguments["fontStyle"] as Int?
       instance.setAlignment(textAlign ?: 0)
       instance.setTextSize(textSize ?: 26)
       instance.setTextStyle(fontStyle ?: 0)
