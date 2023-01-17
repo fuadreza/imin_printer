@@ -1,11 +1,14 @@
+import 'package:imin_printer/enums/print_style_align.dart';
+import 'package:imin_printer/enums/print_style_font.dart';
+
 class PrintStyle {
   const PrintStyle({
-    this.textAlign = 0,
-    this.textSize = 26,
-    this.fontStyle = 0,
+    this.textAlign = PrintStyleAlign.left,
+    this.textSize = 11,
+    this.fontStyle = PrintStyleFont.regular,
   });
 
-  final int textAlign;
+  final PrintStyleAlign textAlign;
   final int textSize;
-  final int fontStyle;
+  final PrintStyleFont fontStyle;
 }

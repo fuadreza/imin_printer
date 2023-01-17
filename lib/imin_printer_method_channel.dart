@@ -46,9 +46,9 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   @override
   Future<String> setStyle(PrintStyle printStyle) async {
     return await methodChannel.invokeMethod<String>('setStyle', {
-          'textAlign': printStyle.textAlign,
+          'textAlign': printStyle.textAlign.value,
           'textSize': printStyle.textSize,
-          'fontStyle': printStyle.fontStyle,
+          'fontStyle': printStyle.fontStyle.value,
         }) ??
         'invalid';
   }
