@@ -4,7 +4,7 @@ import 'package:imin_printer/enums/print_style_font.dart';
 class PrintStyle {
   const PrintStyle({
     this.textAlign = PrintStyleAlign.left,
-    this.textSize = 11,
+    this.textSize = 24,
     this.fontStyle = PrintStyleFont.regular,
   });
 

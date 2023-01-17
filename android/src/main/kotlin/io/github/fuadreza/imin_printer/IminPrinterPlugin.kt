@@ -49,6 +49,9 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         connectType = PrintConnectType.SPI
       }
       instance.initPrinter(connectType)
+      instance.setAlignment(0)
+      instance.setTextSize(24)
+      instance.setTextStyle(0)
       result.success("init")
     } else if (call.method == "getStatus") {
       val status: Int = instance.getPrinterStatus(connectType)
@@ -80,7 +83,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           item as String?
           listText.add(item)
         }
-        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(26, 26))
+        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(24, 24))
         result.success(arrayText)
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)
@@ -91,7 +94,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       val textSize = arguments["textSize"] as Int?
       val fontStyle = arguments["fontStyle"] as Int?
       instance.setAlignment(textAlign ?: 0)
-      instance.setTextSize(textSize ?: 11)
+      instance.setTextSize(textSize ?: 24)
       instance.setTextStyle(fontStyle ?: 0)
     } else {
       result.notImplemented()
