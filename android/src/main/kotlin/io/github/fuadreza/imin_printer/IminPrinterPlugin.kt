@@ -68,6 +68,12 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     } else if (call.method == "printText") {
       if (arguments == null) return
       val text = arguments["text"] as String?
+      val textAlign = arguments["textAlign"] as Int?
+      val textSize = arguments["textSize"] as Int?
+      val fontStyle = arguments["fontStyle"] as Int?
+      instance.setAlignment(textAlign ?: 0)
+      instance.setTextSize(textSize ?: 24)
+      instance.setTextStyle(fontStyle ?: 0)
       if (text != null) {
         instance.printText(text + "\n")
         result.success(text)
