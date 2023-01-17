@@ -66,7 +66,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (arguments == null) return
       val text = arguments["text"] as String?
       if (text != null) {
-        instance.printText(text)
+        instance.printText(text + "\n")
         result.success(text)
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)
