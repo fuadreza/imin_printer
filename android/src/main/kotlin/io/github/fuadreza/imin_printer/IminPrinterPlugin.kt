@@ -51,7 +51,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
       instance.initPrinter(connectType)
       instance.setAlignment(0)
-      instance.setTextSize(24)
+      instance.setTextSize(19)
       instance.setTextTypeface(Typeface.MONOSPACE);
       instance.setTextStyle(Typeface.NORMAL)
       result.success("init")
@@ -74,7 +74,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       val textSize = arguments["textSize"] as Int?
       val fontStyle = arguments["fontStyle"] as Int?
       instance.setAlignment(textAlign ?: 0)
-      instance.setTextSize(textSize ?: 24)
+      instance.setTextSize(textSize ?: 19)
       instance.setTextStyle(fontStyle ?: 0)
       if (text != null) {
         instance.printText(text + "\n")
@@ -91,7 +91,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           item as String?
           listText.add(item)
         }
-        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(24, 24))
+        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(19, 19))
         result.success(arrayText)
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)
@@ -102,7 +102,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       val textSize = arguments["textSize"] as Int?
       val fontStyle = arguments["fontStyle"] as Int?
       instance.setAlignment(textAlign ?: 0)
-      instance.setTextSize(textSize ?: 24)
+      instance.setTextSize(textSize ?: 19)
       instance.setTextStyle(fontStyle ?: 0)
       result.success("success")
     } else {
