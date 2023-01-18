@@ -85,13 +85,14 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     } else if (call.method == "print2ColumnsText") {
       if (arguments == null) return
       val arrayText = arguments["texts"] as ArrayList<*>?
+      val textSize = arguments["textSize"] as Int?
       if (arrayText != null) {
         val listText: MutableList<String> = mutableListOf<String>()
         arrayText.forEach { item ->
           item as String?
           listText.add(item)
         }
-        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(19, 19))
+        instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
         result.success(arrayText)
       } else {
         result.error("invalid_argument", "argument 'text' not found", null)

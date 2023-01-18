@@ -43,8 +43,8 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
-  Future<String> print2ColumnsText(List<String> listText) async {
-    return await methodChannel.invokeMethod<String>('print2ColumnsText', {'texts': listText}) ?? 'invalid';
+  Future<String> print2ColumnsText(List<String> listText, PrintStyle printStyle) async {
+    return await methodChannel.invokeMethod<String>('print2ColumnsText', {'texts': listText, 'textAlign': printStyle.textSize}) ?? 'invalid';
   }
 
   @override
