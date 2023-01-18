@@ -28,9 +28,6 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity: Activity
   private lateinit var instance: IminPrintUtils
 
-  //384=58mm
-  //576=80mm
-
   private var connectType = PrintConnectType.USB
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -46,6 +43,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     } else if(call.method == "initPrinter") {
       val deviceModel = SystemPropManager.getModel()
+      val printSize = arguments?.get("printSize") as Int?
       if (deviceModel.contains("M")) {
         connectType = PrintConnectType.SPI
       }
@@ -54,6 +52,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       instance.setTextSize(19)
       instance.setTextTypeface(Typeface.MONOSPACE);
       instance.setTextStyle(Typeface.NORMAL)
+      instance.setTextWidth(printSize ?: 384)
       result.success("init")
     } else if (call.method == "getStatus") {
       val status: Int = instance.getPrinterStatus(connectType)

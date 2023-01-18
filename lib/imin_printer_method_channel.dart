@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:imin_printer/enums/print_size_imin.dart';
 import 'package:imin_printer/print_style.dart';
 
 import 'imin_printer_platform_interface.dart';
@@ -17,8 +18,8 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
-  Future<String?> initPrinter() async {
-    return await methodChannel.invokeMethod<String>('initPrinter');
+  Future<String?> initPrinter(PrintSizeImin printSizeImin) async {
+    return await methodChannel.invokeMethod<String>('initPrinter', {'printSize': printSizeImin.value});
   }
 
   @override

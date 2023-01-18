@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:imin_printer/enums/print_size_imin.dart';
 import 'package:imin_printer/imin_printer.dart';
 import 'package:imin_printer/imin_printer_platform_interface.dart';
 import 'package:imin_printer/imin_printer_method_channel.dart';
@@ -15,7 +16,7 @@ class MockIminPrinterPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> initPrinter() => Future.value('init');
+  Future<String?> initPrinter(PrintSizeImin printSizeImin) => Future.value('init');
 
   @override
   Future<String> getStatus() => Future.value('active');

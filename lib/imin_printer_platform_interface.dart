@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:imin_printer/enums/print_size_imin.dart';
 import 'package:imin_printer/print_style.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -30,7 +31,7 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> initPrinter() {
+  Future<String?> initPrinter(PrintSizeImin printSizeImin) {
     throw UnimplementedError('initPrinter() has not been implemented.');
   }
 

@@ -1,6 +1,7 @@
 
 import 'dart:typed_data';
 
+import 'package:imin_printer/enums/print_size_imin.dart';
 import 'package:imin_printer/print_style.dart';
 
 import 'imin_printer_platform_interface.dart';
@@ -10,8 +11,8 @@ class IminPrinter {
     return IminPrinterPlatform.instance.getPlatformVersion();
   }
 
-  Future<void> initPrinter() async {
-    IminPrinterPlatform.instance.initPrinter();
+  Future<void> initPrinter({PrintSizeImin printSizeImin = PrintSizeImin.mm58}) async {
+    IminPrinterPlatform.instance.initPrinter(printSizeImin);
   }
 
   Future<String> getStatus() async {
