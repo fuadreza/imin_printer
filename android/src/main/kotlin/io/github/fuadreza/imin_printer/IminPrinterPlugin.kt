@@ -15,6 +15,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import android.graphics.Typeface
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -51,7 +52,8 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       instance.initPrinter(connectType)
       instance.setAlignment(0)
       instance.setTextSize(24)
-      instance.setTextStyle(0)
+      instance.setTextTypeface(Typeface.MONOSPACE);
+      instance.setTextStyle(Typeface.NORMAL)
       result.success("init")
     } else if (call.method == "getStatus") {
       val status: Int = instance.getPrinterStatus(connectType)
@@ -102,6 +104,7 @@ class IminPrinterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       instance.setAlignment(textAlign ?: 0)
       instance.setTextSize(textSize ?: 24)
       instance.setTextStyle(fontStyle ?: 0)
+      result.success("success")
     } else {
       result.notImplemented()
     }
