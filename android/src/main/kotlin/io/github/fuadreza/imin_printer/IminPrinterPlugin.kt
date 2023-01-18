@@ -2,6 +2,10 @@ package io.github.fuadreza.imin_printer
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
@@ -15,7 +19,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import android.graphics.Typeface
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -105,6 +108,19 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             instance.setTextSize(textSize ?: 19)
             instance.setTextStyle(fontStyle ?: 0)
             result.success("success")
+        } else if (call.method == "printBitmap") {
+            if (arguments == null) return
+            var bytes = arguments["bytes"] as ByteArray?
+            if (bytes != null) {
+                var bitmap: Bitmap? = convertByteArrayToBitmap(bytes)
+                bitmap = getBlackWhiteBitmap(bitmap!!)
+                instance.printSingleBitmap(bitmap)
+                bitmap = null
+                bytes = null
+                result.success("success")
+            } else {
+                result.error("invalid_argument", "argument 'bytes' not found", null)
+            }
         } else {
             result.notImplemented()
         }
@@ -129,5 +145,51 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromActivity() {
         //TODO("Not yet implemented")
+    }
+
+    private fun convertByteArrayToBitmap(bytes: ByteArray): Bitmap {
+        val options = BitmapFactory.Options()
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+    }
+
+    private fun getBlackWhiteBitmap(bitmap: Bitmap): Bitmap {
+        val w = bitmap.width
+        val h = bitmap.height
+        val resultBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565)
+        var color = 0
+        var a: Int
+        var r: Int
+        var g: Int
+        var b: Int
+        var r1: Int
+        var g1: Int
+        var b1: Int
+        val oldPx = IntArray(w * h)
+        val newPx = IntArray(w * h)
+        bitmap.getPixels(oldPx, 0, w, 0, 0, w, h)
+        for (i in 0..(w * h)) {
+            color = oldPx[i]
+            r = Color.red(color)
+            g = Color.green(color)
+            b = Color.blue(color)
+            a = Color.alpha(color)
+            //黑白矩阵
+            r1 = (0.33 * r + 0.59 * g + 0.11 * b).toInt()
+            g1 = (0.33 * r + 0.59 * g + 0.11 * b).toInt()
+            b1 = (0.33 * r + 0.59 * g + 0.11 * b).toInt()
+            //检查各像素值是否超出范围
+            if (r1 > 255) {
+                r1 = 255
+            }
+            if (g1 > 255) {
+                g1 = 255
+            }
+            if (b1 > 255) {
+                b1 = 255
+            }
+            newPx[i] = Color.argb(a, r1, g1, b1)
+        }
+        resultBitmap.setPixels(newPx, 0, w, 0, 0, w, h)
+        return resultBitmap
     }
 }

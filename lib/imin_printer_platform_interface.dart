@@ -51,6 +51,10 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('print2ColumnsText() has not been implemented.');
   }
 
+  Future<String> printBitmap(Uint8List bytes) {
+    throw UnimplementedError('printBitmap() has not been implemented.');
+  }
+
   Future<String> setStyle(PrintStyle printStyle) {
     throw UnimplementedError('setStyle() has not been implemented.');
   }

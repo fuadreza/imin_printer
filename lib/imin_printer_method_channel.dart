@@ -49,6 +49,11 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
+  Future<String> printBitmap(Uint8List bytes) async {
+    return await methodChannel.invokeMethod<String>('printBitmap', {'bytes': bytes}) ?? 'invalid';
+  }
+
+  @override
   Future<String> setStyle(PrintStyle printStyle) async {
     return await methodChannel.invokeMethod<String>('setStyle', {
           'textAlign': printStyle.textAlign.value,

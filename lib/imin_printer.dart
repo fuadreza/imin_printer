@@ -31,6 +31,10 @@ class IminPrinter {
     IminPrinterPlatform.instance.print2ColumnsText(listText, printStyle);
   }
 
+  Future<void> printBitmap(Uint8List bytes) async {
+    IminPrinterPlatform.instance.printBitmap(bytes);
+  }
+
   Future<void> setStyle(PrintStyle printStyle) async {
     IminPrinterPlatform.instance.setStyle(printStyle);
   }

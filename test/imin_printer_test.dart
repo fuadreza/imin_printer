@@ -40,6 +40,11 @@ class MockIminPrinterPlatform
   Future<String> setStyle(PrintStyle printStyle) {
     return Future.value('success');
   }
+
+  @override
+  Future<String> printBitmap(Uint8List bytes) {
+    return Future.value('success');
+  }
 }
 
 void main() {
