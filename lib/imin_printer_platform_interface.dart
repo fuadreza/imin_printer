@@ -55,6 +55,10 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('printBitmap() has not been implemented.');
   }
 
+  Future<String> printBitmapBase64(String base64) {
+    throw UnimplementedError('printBitmapBase64() has not been implemented.');
+  }
+
   Future<String> setStyle(PrintStyle printStyle) {
     throw UnimplementedError('setStyle() has not been implemented.');
   }

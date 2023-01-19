@@ -19,6 +19,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.github.fuadreza.imin_printer.extensions.base64ToBitmap
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -117,6 +118,19 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 instance.printSingleBitmap(bitmap)
                 bitmap = null
                 bytes = null
+                result.success("success")
+            } else {
+                result.error("invalid_argument", "argument 'bytes' not found", null)
+            }
+        } else if (call.method == "printBitmapBase64") {
+            if (arguments == null) return
+            var stringBase64 = arguments["base64"] as String?
+            if (stringBase64 != null) {
+                var bitmap: Bitmap? = stringBase64.base64ToBitmap()
+                bitmap = getBlackWhiteBitmap(bitmap!!)
+                instance.printSingleBitmap(bitmap)
+                bitmap = null
+                stringBase64 = null
                 result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)

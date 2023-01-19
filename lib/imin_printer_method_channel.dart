@@ -54,6 +54,11 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
+  Future<String> printBitmapBase64(String base64) async {
+    return await methodChannel.invokeMethod<String>('printBitmapBase64', {'base64': base64}) ?? 'invalid';
+  }
+
+  @override
   Future<String> setStyle(PrintStyle printStyle) async {
     return await methodChannel.invokeMethod<String>('setStyle', {
           'textAlign': printStyle.textAlign.value,

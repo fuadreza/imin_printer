@@ -35,6 +35,10 @@ class IminPrinter {
     IminPrinterPlatform.instance.printBitmap(bytes);
   }
 
+  Future<void> printBitmapBase64(String base64) async {
+    IminPrinterPlatform.instance.printBitmapBase64(base64);
+  }
+
   Future<void> setStyle(PrintStyle printStyle) async {
     IminPrinterPlatform.instance.setStyle(printStyle);
   }
