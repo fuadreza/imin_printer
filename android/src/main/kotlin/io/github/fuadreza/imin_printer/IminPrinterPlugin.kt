@@ -114,7 +114,6 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             var bytes = arguments["bytes"] as ByteArray?
             if (bytes != null) {
                 var bitmap: Bitmap? = convertByteArrayToBitmap(bytes)
-                bitmap = getBlackWhiteBitmap(bitmap!!)
                 instance.printSingleBitmap(bitmap)
                 bitmap = null
                 bytes = null
@@ -127,7 +126,6 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             var stringBase64 = arguments["base64"] as String?
             if (stringBase64 != null) {
                 var bitmap: Bitmap? = stringBase64.base64ToBitmap()
-                bitmap = getBlackWhiteBitmap(bitmap!!)
                 instance.printSingleBitmap(bitmap)
                 bitmap = null
                 stringBase64 = null
