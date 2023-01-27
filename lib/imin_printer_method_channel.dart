@@ -23,6 +23,11 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
+  Future<String?> setPrintSize(PrintSizeImin printSizeImin) async {
+    return await methodChannel.invokeMethod<String>('setPrintSize', {'printSize': printSizeImin.value});
+  }
+
+  @override
   Future<String> getStatus() async {
     return await methodChannel.invokeMethod<String>('getStatus') ?? 'invalid';
   }

@@ -19,6 +19,14 @@ class IminPrinter {
     IminPrinterPlatform.instance.initPrinter(printSizeImin);
   }
 
+  /// Change Print Size Imin Printer
+  ///
+  /// Set print size with value :
+  /// the default value is for 58mm paper and 80mm
+  Future<void> setPrintSize(PrintSizeImin printSizeImin) async {
+    IminPrinterPlatform.instance.setPrintSize(printSizeImin);
+  }
+
   /// Get Status
   ///
   /// Return [String] printer status. Different printer

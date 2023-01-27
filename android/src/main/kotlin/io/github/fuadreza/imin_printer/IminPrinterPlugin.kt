@@ -61,6 +61,10 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "getStatus") {
             val status: Int = instance.getPrinterStatus(connectType)
             result.success(String.format("%d", status))
+        } else if (call.method == "setPrintSize") {
+            val printSize = arguments?.get("printSize") as Int?
+            instance.setTextWidth(printSize ?: 384)
+            result.success("success change size to $printSize")
         } else if (call.method == "printBytes") {
             if (arguments == null) return
             val bytes = arguments["bytes"] as ByteArray?

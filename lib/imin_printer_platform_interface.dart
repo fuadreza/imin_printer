@@ -35,6 +35,10 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('initPrinter() has not been implemented.');
   }
 
+  Future<String?> setPrintSize(PrintSizeImin printSizeImin) {
+    throw UnimplementedError('setPrintSize() has not been implemented.');
+  }
+
   Future<String> getStatus() {
     throw UnimplementedError('getStatus() has not been implemented.');
   }
