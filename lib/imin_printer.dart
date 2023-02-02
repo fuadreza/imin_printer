@@ -1,6 +1,7 @@
 
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart';
 import 'package:imin_printer/enums/print_size_imin.dart';
 import 'package:imin_printer/print_style.dart';
 
@@ -15,8 +16,13 @@ class IminPrinter {
   ///
   /// Option to Set paper size with [printSizeImin] with
   /// the default value is for 58mm paper.
-  Future<void> initPrinter({PrintSizeImin printSizeImin = PrintSizeImin.mm58}) async {
-    IminPrinterPlatform.instance.initPrinter(printSizeImin);
+  Future<String> initPrinter({PrintSizeImin printSizeImin = PrintSizeImin.mm58}) async {
+    try {
+      await IminPrinterPlatform.instance.initPrinter(printSizeImin);
+      return 'Success';
+    } on MissingPluginException catch (error) {
+      return 'Error | ${error.message}';
+    }
   }
 
   /// Change Print Size Imin Printer

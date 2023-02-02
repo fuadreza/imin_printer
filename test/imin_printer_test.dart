@@ -45,6 +45,16 @@ class MockIminPrinterPlatform
   Future<String> printBitmap(Uint8List bytes) {
     return Future.value('success');
   }
+
+  @override
+  Future<String> printBitmapBase64(String base64) {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String?> setPrintSize(PrintSizeImin printSizeImin) {
+    return Future.value('success');
+  }
 }
 
 void main() {
