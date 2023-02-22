@@ -1,5 +1,4 @@
 
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:imin_printer/enums/print_size_imin.dart';

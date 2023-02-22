@@ -44,19 +44,17 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         val arguments: Map<String, Any>? = call.arguments()
         if (call.method == "getPlatformVersion") {
-            result.success("Android ${android.os.Build.VERSION.RELEASE}")
+            result.success("Android ${Build.VERSION.RELEASE}")
         } else if (call.method == "initPrinter") {
             val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
-            if (deviceModel.contains("M")) {
-                connectType = PrintConnectType.SPI
+            connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2 Pro")) {
+                PrintConnectType.SPI
+            } else {
+                PrintConnectType.USB
             }
             instance.initPrinter(connectType)
-            instance.setAlignment(0)
-            instance.setTextSize(19)
-            instance.setTextTypeface(Typeface.MONOSPACE);
-            instance.setTextStyle(Typeface.NORMAL)
-            instance.setTextWidth(printSize ?: 384)
+            setDefaultStyle(printSize)
             result.success("init")
         } else if (call.method == "getStatus") {
             val status: Int = instance.getPrinterStatus(connectType)
@@ -166,6 +164,14 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private fun convertByteArrayToBitmap(bytes: ByteArray): Bitmap {
         val options = BitmapFactory.Options()
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+    }
+
+    private fun setDefaultStyle(printSize: Int?) {
+        instance.setAlignment(0)
+        instance.setTextSize(19)
+        instance.setTextTypeface(Typeface.MONOSPACE);
+        instance.setTextStyle(Typeface.NORMAL)
+        instance.setTextWidth(printSize ?: 384)
     }
 
     private fun getBlackWhiteBitmap(bitmap: Bitmap): Bitmap {
