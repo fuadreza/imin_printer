@@ -53,9 +53,20 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             } else {
                 PrintConnectType.USB
             }
-            instance.initPrinter(connectType)
-            setDefaultStyle(printSize)
-            result.success("init")
+
+            try {
+                instance.initPrinter(connectType)
+            } catch (e: Exception) {
+                val newConnectType = if (connectType == PrintConnectType.SPI) {
+                    PrintConnectType.USB
+                } else {
+                    PrintConnectType.SPI
+                }
+                instance.initPrinter(newConnectType)
+            } finally {
+                setDefaultStyle(printSize)
+                result.success("init")
+            }
         } else if (call.method == "getStatus") {
             val status: Int = instance.getPrinterStatus(connectType)
             result.success(String.format("%d", status))
