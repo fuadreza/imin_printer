@@ -42,6 +42,13 @@ class IminPrinter {
     return IminPrinterPlatform.instance.getStatus();
   }
 
+  /// Get Model Name
+  ///
+  /// Return [String] printer model name.
+  Future<String> getModelName() async {
+    return IminPrinterPlatform.instance.getModelName();
+  }
+
   /// Print raw bytes
   ///
   /// Accept [bytes] with type [Uint8List] and send

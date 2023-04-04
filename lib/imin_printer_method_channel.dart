@@ -45,6 +45,15 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
+  Future<String> getModelName() async {
+    try {
+      return await methodChannel.invokeMethod<String>('getModelName') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for getStatus() on channel');
+    }
+  }
+
+  @override
   Future<String> printBytes(Uint8List bytes) async {
     try {
       return await methodChannel.invokeMethod<String>('printBytes', {'bytes': bytes}) ?? 'invalid';
