@@ -149,7 +149,14 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
             }
+        } else if (call.method == "fullCut") {
+            instance.fullCut()
+            result.success("success")
+        } else if (call.method == "partialCut") {
+            instance.partialCut()
+            result.success("success")
         } else {
+            instance.partialCut()
             result.notImplemented()
         }
     }

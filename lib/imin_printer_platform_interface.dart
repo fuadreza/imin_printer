@@ -70,4 +70,12 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   Future<String> setStyle(PrintStyle printStyle) {
     throw UnimplementedError('setStyle() has not been implemented.');
   }
+
+  Future<String> partialCut() {
+    throw UnimplementedError('partialCut() has not been implemented.');
+  }
+
+  Future<String> fullCut() {
+    throw UnimplementedError('fullCut() has not been implemented.');
+  }
 }

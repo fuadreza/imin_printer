@@ -117,4 +117,22 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
       throw MissingPluginException('No method found for setStyle() on channel');
     }
   }
+
+  @override
+  Future<String> partialCut() async {
+    try {
+      return await methodChannel.invokeMethod<String>('partialCut') ?? 'invalid';
+    }on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for partialCut() on channel');
+    }
+  }
+
+  @override
+  Future<String> fullCut() async {
+    try {
+      return await methodChannel.invokeMethod<String>('fullCut') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for fullCut() on channel');
+    }
+  }
 }

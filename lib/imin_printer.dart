@@ -93,4 +93,18 @@ class IminPrinter {
   Future<void> setStyle(PrintStyle printStyle) async {
     IminPrinterPlatform.instance.setStyle(printStyle);
   }
+
+  /// Partial cut
+  ///
+  /// Perform Partial cut paper in printing
+  Future<void> partialCut() async {
+    IminPrinterPlatform.instance.partialCut();
+  }
+
+  /// Full cut
+  ///
+  /// Perform Full cut paper in printing
+  Future<void> fullCut() async {
+    IminPrinterPlatform.instance.fullCut();
+  }
 }
