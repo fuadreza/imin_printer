@@ -50,4 +50,5 @@ android {
 dependencies {
     implementation files('libs/iminPrinterSDK.jar')
     implementation files('libs/IminLibs1.0.15.jar')
+    implementation files('libs/freeimagelibrary.jar')
 }
