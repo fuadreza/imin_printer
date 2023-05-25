@@ -28,10 +28,10 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
-    val flagInitLcdManager: Int = 1
-    val flagWakeUpLcdManager: Int = 2
-    val flagHibernateLcdManager: Int = 3
-    val flagClearScreenLcdManager: Int = 4
+    val flagInitLCDManager: Int = 1
+    val flagWakeUpLCDManager: Int = 2
+    val flagHibernateLCDManager: Int = 3
+    val flagClearScreenLCDManager: Int = 4
 
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
@@ -77,7 +77,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "initLCDManager") {
             try {
                 instanceLcdManager = ILcdManager.getInstance(context)
-                instanceLcdManager.sendLCDCommand(flagInitLcdManager)
+                instanceLcdManager.sendLCDCommand(flagInitLCDManager)
             } catch (e: Exception) {} finally {
                 result.success("initLCDManager")
             }
@@ -174,13 +174,19 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             var stringBase64 = arguments["base64"] as String?
             if (stringBase64 != null) {
                 var bitmap: Bitmap? = stringBase64.base64ToBitmap()
-                instanceLcdManager.sendLCDCommand(flagClearScreenLcdManager)
+                instanceLcdManager.sendLCDCommand(flagClearScreenLCDManager)
                 instanceLcdManager.sendLCDBitmap(bitmap)
                 bitmap = null
                 stringBase64 = null
                 result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
+            }
+        } else if (call.method == "clearLCDScreen") {
+            try {
+                instanceLcdManager.sendLCDCommand(flagClearScreenLCDManager)
+            } catch (e: Exception) {} finally {
+                result.success("initLCDManager")
             }
         } else {
             instance.partialCut()

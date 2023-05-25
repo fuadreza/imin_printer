@@ -124,7 +124,7 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   Future<String> partialCut() async {
     try {
       return await methodChannel.invokeMethod<String>('partialCut') ?? 'invalid';
-    }on MissingPluginException catch (_) {
+    } on MissingPluginException catch (_) {
       throw MissingPluginException('No method found for partialCut() on channel');
     }
   }
@@ -160,5 +160,14 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     }
   }
 
-  //#endregion LCD MANAGER
+  @override
+  Future<String> clearLCDScreen() async {
+    try {
+      return await methodChannel.invokeMethod<String>('clearLCDScreen') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for clearLCDScreen() on channel');
+    }
+  }
+
+//#endregion LCD MANAGER
 }

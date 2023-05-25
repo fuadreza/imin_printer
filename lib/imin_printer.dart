@@ -134,5 +134,12 @@ class IminPrinter {
     IminPrinterPlatform.instance.sendBitmapBase64(base64);
   }
 
+  /// Clear LCD Screen
+  ///
+  /// Send command to clear LCD Screen.
+  Future<void> clearLCDScreen() async {
+    IminPrinterPlatform.instance.clearLCDScreen();
+  }
+
   //#endregion LCD MANAGER
 }
