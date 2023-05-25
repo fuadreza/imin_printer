@@ -11,6 +11,8 @@ class IminPrinter {
     return IminPrinterPlatform.instance.getPlatformVersion();
   }
 
+  //#region PRINTER
+
   /// Initialize Imin Printer
   ///
   /// Option to Set paper size with [printSizeImin] with
@@ -107,4 +109,23 @@ class IminPrinter {
   Future<void> fullCut() async {
     IminPrinterPlatform.instance.fullCut();
   }
+
+  //#endregion PRINTER
+
+  //#region LCD MANAGER
+
+  /// Initialize Imin LCD
+  ///
+  /// Init imin LCD manager for LCD Support.
+  /// LCD is different from dual screen.
+  Future<String> initLCDManager() async {
+    try {
+      await IminPrinterPlatform.instance.initLCDManager();
+      return 'Success';
+    } on MissingPluginException catch (error) {
+      return 'Error | ${error.message}';
+    }
+  }
+
+  //#endregion LCD MANAGER
 }

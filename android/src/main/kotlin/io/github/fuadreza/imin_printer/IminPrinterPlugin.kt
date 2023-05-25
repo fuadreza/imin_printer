@@ -9,6 +9,7 @@ import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
+import com.imin.image.ILcdManager
 import com.imin.library.SystemPropManager
 import com.imin.printerlib.IminPrintUtils
 import com.imin.printerlib.IminPrintUtils.PrintConnectType
@@ -27,10 +28,16 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
+    val flagInitLcdManager: Int = 1
+    val flagWakeUpLcdManager: Int = 2
+    val flagHibernateLcdManager: Int = 3
+    val flagClearScreenLcdManager: Int = 4
+
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
     private lateinit var activity: Activity
     private lateinit var instance: IminPrintUtils
+    private lateinit var instanceLcdManager: ILcdManager
 
     private var connectType = PrintConnectType.USB
 
@@ -66,6 +73,13 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             } finally {
                 setDefaultStyle(printSize)
                 result.success("init")
+            }
+        } else if (call.method == "initLCDManager") {
+            try {
+                instanceLcdManager = ILcdManager.getInstance(context)
+                instanceLcdManager.sendLCDCommand(flagInitLcdManager)
+            } catch (e: Exception) {} finally {
+                result.success("initLCDManager")
             }
         } else if (call.method == "getStatus") {
             val status: Int = instance.getPrinterStatus(connectType)

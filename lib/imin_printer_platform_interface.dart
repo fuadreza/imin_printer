@@ -31,6 +31,8 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
+  //#region PRINTER
+
   Future<String?> initPrinter(PrintSizeImin printSizeImin) {
     throw UnimplementedError('initPrinter() has not been implemented.');
   }
@@ -78,4 +80,14 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   Future<String> fullCut() {
     throw UnimplementedError('fullCut() has not been implemented.');
   }
+
+  //#endregion PRINTER
+
+  //#region LCD MANAGER
+
+  Future<String?> initLCDManager() {
+    throw UnimplementedError('initLCDManager() has not been implemented.');
+  }
+
+  //#region LCD MANAGER
 }

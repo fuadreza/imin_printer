@@ -17,6 +17,8 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     return version;
   }
 
+  //#region PRINTER
+
   @override
   Future<String?> initPrinter(PrintSizeImin printSizeImin) async {
     try {
@@ -135,4 +137,19 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
       throw MissingPluginException('No method found for fullCut() on channel');
     }
   }
+
+  //#endregion PRINTER
+
+  //#region LCD MANAGER
+
+  @override
+  Future<String> initLCDManager() async {
+    try {
+      return await methodChannel.invokeMethod<String>('initLCDManager') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for initLCDManager() on channel');
+    }
+  }
+
+  //#endregion LCD MANAGER
 }
