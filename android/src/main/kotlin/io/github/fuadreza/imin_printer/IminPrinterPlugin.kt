@@ -169,6 +169,19 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "partialCut") {
             instance.partialCut()
             result.success("success")
+        } else if (call.method == "sendBitmapBase64") {
+            if (arguments == null) return
+            var stringBase64 = arguments["base64"] as String?
+            if (stringBase64 != null) {
+                var bitmap: Bitmap? = stringBase64.base64ToBitmap()
+                instanceLcdManager.sendLCDCommand(flagClearScreenLcdManager)
+                instanceLcdManager.sendLCDBitmap(bitmap)
+                bitmap = null
+                stringBase64 = null
+                result.success("success")
+            } else {
+                result.error("invalid_argument", "argument 'bytes' not found", null)
+            }
         } else {
             instance.partialCut()
             result.notImplemented()

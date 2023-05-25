@@ -89,5 +89,9 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('initLCDManager() has not been implemented.');
   }
 
+  Future<String> sendBitmapBase64(String base64) {
+    throw UnimplementedError('sendBitmapBase64() has not been implemented.');
+  }
+
   //#region LCD MANAGER
 }
