@@ -55,6 +55,36 @@ class MockIminPrinterPlatform
   Future<String?> setPrintSize(PrintSizeImin printSizeImin) {
     return Future.value('success');
   }
+
+  @override
+  Future<String> clearLCDScreen() {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> fullCut() {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> getModelName() {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String?> initLCDManager() {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> partialCut() {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> sendBitmapBase64(String base64) {
+    return Future.value('success');
+  }
 }
 
 void main() {
