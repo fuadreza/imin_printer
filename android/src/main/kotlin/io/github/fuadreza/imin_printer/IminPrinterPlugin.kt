@@ -169,7 +169,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "partialCut") {
             instance.partialCut()
             result.success("success")
-        } else if (call.method == "sendBitmapBase64") {
+        } else if (call.method == "sendBitmapBase64LCDScreen") {
             if (arguments == null) return
             var stringBase64 = arguments["base64"] as String?
             if (stringBase64 != null) {

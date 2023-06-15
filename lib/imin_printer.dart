@@ -127,11 +127,11 @@ class IminPrinter {
     }
   }
 
-  /// Send Image Base 64 to LCD
+  /// Send Image Base 64 to LCD Screen
   ///
   /// Accept [String] bitmap based on base64 format [base64].
-  Future<void> sendBitmapBase64(String base64) async {
-    IminPrinterPlatform.instance.sendBitmapBase64(base64);
+  Future<void> sendBitmapBase64LCDScreen(String base64) async {
+    IminPrinterPlatform.instance.sendBitmapBase64LCDScreen(base64);
   }
 
   /// Clear LCD Screen

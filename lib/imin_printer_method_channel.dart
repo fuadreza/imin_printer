@@ -152,9 +152,9 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
-  Future<String> sendBitmapBase64(String base64) async {
+  Future<String> sendBitmapBase64LCDScreen(String base64) async {
     try {
-      return await methodChannel.invokeMethod<String>('sendBitmapBase64', {'base64': base64}) ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('sendBitmapBase64LCDScreen', {'base64': base64}) ?? 'invalid';
     } on MissingPluginException catch (_) {
       throw MissingPluginException('No method found for sendBitmapBase64() on channel');
     }
