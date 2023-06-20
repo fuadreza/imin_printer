@@ -82,7 +82,12 @@ class MockIminPrinterPlatform
   }
 
   @override
-  Future<String> sendBitmapBase64(String base64) {
+  Future<String> sendBitmapBase64LCDScreen(String base64) {
+    return Future.value('success');
+  }
+
+  @override
+  Future<String> getBrandName() {
     return Future.value('success');
   }
 }

@@ -49,6 +49,10 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('getModelName() has not been implemented.');
   }
 
+  Future<String> getBrandName() {
+    throw UnimplementedError('getBrandName() has not been implemented.');
+  }
+
   Future<String> printBytes(Uint8List bytes) {
     throw UnimplementedError('printBytes() has not been implemented.');
   }

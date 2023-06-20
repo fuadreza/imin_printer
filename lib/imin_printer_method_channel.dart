@@ -51,7 +51,16 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     try {
       return await methodChannel.invokeMethod<String>('getModelName') ?? 'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for getStatus() on channel');
+      throw MissingPluginException('No method found for getModelName() on channel');
+    }
+  }
+
+  @override
+  Future<String> getBrandName() async {
+    try {
+      return await methodChannel.invokeMethod<String>('getBrandName') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for getBrandName() on channel');
     }
   }
 

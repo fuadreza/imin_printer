@@ -84,6 +84,9 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "getStatus") {
             val status: Int = instance.getPrinterStatus(connectType)
             result.success(String.format("%d", status))
+        } else if (call.method == "getBrandName") {
+            val deviceBrand = SystemPropManager.getBrand()
+            result.success(deviceBrand)
         } else if (call.method == "getModelName") {
             val deviceModel = SystemPropManager.getModel()
             result.success(deviceModel)
