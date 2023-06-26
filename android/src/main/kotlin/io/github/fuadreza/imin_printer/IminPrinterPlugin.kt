@@ -1,7 +1,9 @@
 package io.github.fuadreza.imin_printer
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -9,6 +11,8 @@ import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.imin.image.ILcdManager
 import com.imin.library.SystemPropManager
 import com.imin.printerlib.IminPrintUtils
@@ -21,6 +25,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.github.fuadreza.imin_printer.extensions.base64ToBitmap
+
 
 /** IminPrinterPlugin */
 class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -53,6 +58,17 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         if (call.method == "getPlatformVersion") {
             result.success("Android ${Build.VERSION.RELEASE}")
         } else if (call.method == "initPrinter") {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    activity, arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
+                    ), 0
+                )
+            }
+
             val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
             connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2 Pro")) {
@@ -78,7 +94,8 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             try {
                 instanceLcdManager = ILcdManager.getInstance(context)
                 instanceLcdManager.sendLCDCommand(flagInitLCDManager)
-            } catch (e: Exception) {} finally {
+            } catch (e: Exception) {
+            } finally {
                 result.success("initLCDManager")
             }
         } else if (call.method == "getStatus") {
@@ -188,7 +205,8 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "clearLCDScreen") {
             try {
                 instanceLcdManager.sendLCDCommand(flagClearScreenLCDManager)
-            } catch (e: Exception) {} finally {
+            } catch (e: Exception) {
+            } finally {
                 result.success("initLCDManager")
             }
         } else {
