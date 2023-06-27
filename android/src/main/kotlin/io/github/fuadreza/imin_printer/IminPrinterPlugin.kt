@@ -71,7 +71,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
             val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
-            connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2 Pro")) {
+            connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2-Pro")) {
                 PrintConnectType.SPI
             } else {
                 PrintConnectType.USB
