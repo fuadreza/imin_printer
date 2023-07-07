@@ -149,4 +149,13 @@ class IminPrinter {
   }
 
   //#endregion LCD MANAGER
+
+  //#region CASH DRAWER
+
+  Future<void> openCashDrawer() async {
+    IminPrinterPlatform.instance.openCashDrawer();
+  }
+
+  //#endregion CASH DRAWER
+
 }

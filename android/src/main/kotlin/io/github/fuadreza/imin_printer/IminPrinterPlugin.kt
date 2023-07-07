@@ -17,6 +17,7 @@ import com.imin.image.ILcdManager
 import com.imin.library.SystemPropManager
 import com.imin.printerlib.IminPrintUtils
 import com.imin.printerlib.IminPrintUtils.PrintConnectType
+import com.imin.library.IminSDKManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -209,6 +210,8 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             } finally {
                 result.success("initLCDManager")
             }
+        } else if (call.method == "openCashDrawer") {
+            IminSDKManager.opencashBox()
         } else {
             instance.partialCut()
             result.notImplemented()
@@ -247,6 +250,14 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         instance.setTextTypeface(Typeface.MONOSPACE);
         instance.setTextStyle(Typeface.NORMAL)
         instance.setTextWidth(printSize ?: 384)
+    }
+
+    fun byte2int(src: ByteArray?): IntArray? {
+        return if (src != null) {
+            IntArray(src.size) { index -> src[index].toInt() }
+        } else {
+            null;
+        }
     }
 
     private fun getBlackWhiteBitmap(bitmap: Bitmap): Bitmap {

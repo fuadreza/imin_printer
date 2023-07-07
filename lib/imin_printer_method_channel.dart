@@ -178,5 +178,18 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     }
   }
 
-//#endregion LCD MANAGER
+  //#endregion LCD MANAGER
+
+  //#region CASH DRAWER
+
+  @override
+  Future<String> openCashDrawer() async {
+    try {
+      return await methodChannel.invokeMethod<String>('openCashDrawer') ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for openCashDrawer() on channel');
+    }
+  }
+
+  //#endregion CASH DRAWER
 }

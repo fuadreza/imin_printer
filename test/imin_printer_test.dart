@@ -90,6 +90,11 @@ class MockIminPrinterPlatform
   Future<String> getBrandName() {
     return Future.value('success');
   }
+
+  @override
+  Future<String> openCashDrawer() {
+    return Future.value('success');
+  }
 }
 
 void main() {

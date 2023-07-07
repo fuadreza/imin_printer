@@ -102,4 +102,12 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   }
 
   //#region LCD MANAGER
+
+  //#region CASH DRAWER
+
+  Future<String> openCashDrawer() {
+    throw UnimplementedError('openCashDrawer() has not been implemented.');
+  }
+
+//#endregion CASH DRAWER
 }
