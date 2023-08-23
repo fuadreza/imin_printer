@@ -1,7 +1,7 @@
 name: imin_printer
 description: Imin plugin for flutter
-version: 0.0.5
-homepage:
+version: 0.0.6
+homepage: https://github.com/fuadreza/imin_printer
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
