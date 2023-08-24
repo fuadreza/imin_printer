@@ -95,6 +95,11 @@ class MockIminPrinterPlatform
   Future<String> openCashDrawer() {
     return Future.value('success');
   }
+
+  @override
+  Future<String> printQR(String data, int size) {
+    return Future.value('success');
+  }
 }
 
 void main() {

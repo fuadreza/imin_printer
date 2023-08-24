@@ -14,10 +14,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.imin.image.ILcdManager
+import com.imin.library.IminSDKManager
 import com.imin.library.SystemPropManager
 import com.imin.printerlib.IminPrintUtils
 import com.imin.printerlib.IminPrintUtils.PrintConnectType
-import com.imin.library.IminSDKManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -212,6 +212,11 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
         } else if (call.method == "openCashDrawer") {
             IminSDKManager.opencashBox()
+        } else if (call.method == "printQR") {
+            if (arguments == null) return
+            val qrStr = arguments["data"] as String?
+            val size = arguments["size"] as Int?
+            instance.printQrCode(qrStr, size ?: 100)
         } else {
             instance.partialCut()
             result.notImplemented()

@@ -116,6 +116,15 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   }
 
   @override
+  Future<String> printQR(String data, int size) async {
+    try {
+      return await methodChannel.invokeMethod<String>('printQR', {'data': data, 'size': size}) ?? 'invalid';
+    } on MissingPluginException catch (_) {
+      throw MissingPluginException('No method found for printQR() on channel');
+    }
+  }
+
+  @override
   Future<String> setStyle(PrintStyle printStyle) async {
     try {
       return await methodChannel.invokeMethod<String>('setStyle', {

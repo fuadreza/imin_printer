@@ -96,6 +96,10 @@ class IminPrinter {
     IminPrinterPlatform.instance.printBitmapBase64(base64);
   }
 
+  Future<void> printQR(String data, int size) async {
+    IminPrinterPlatform.instance.printQR(data, size);
+  }
+
   /// Set style for printer
   ///
   /// Set default style for printing using [PrintStyle].
