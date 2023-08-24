@@ -216,8 +216,12 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             if (arguments == null) return
             val qrStr = arguments["data"] as String?
             val size = arguments["size"] as Int?
-            instance.setQrCodeSize(size ?: 100)
-            instance.printQrCode(qrStr, 1)
+            if (qrStr != null) {
+                instance.setQrCodeSize(size ?: 100)
+                instance.setQrCodeErrorCorrectionLev(51)
+                instance.printQrCode(qrStr, 1)
+            }
+            result.success("printQR")
         } else {
             instance.partialCut()
             result.notImplemented()
