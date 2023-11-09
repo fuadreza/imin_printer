@@ -1,8 +1,8 @@
+import 'package:another_imin_printer/imin_printer.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:imin_printer/imin_printer.dart';
 
 void main() {
   runApp(const MyApp());

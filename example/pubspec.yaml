@@ -18,7 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  imin_printer:
+  another_imin_printer:
     # When depending on this package from a real application you should use:
     #   imin_printer: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

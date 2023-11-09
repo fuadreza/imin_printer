@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:imin_printer/enums/print_size_imin.dart';
-import 'package:imin_printer/print_style.dart';
+import 'package:another_imin_printer/enums/print_size_imin.dart';
+import 'package:another_imin_printer/print_style.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'imin_printer_method_channel.dart';

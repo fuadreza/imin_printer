@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/services.dart';
-import 'package:imin_printer/enums/print_size_imin.dart';
-import 'package:imin_printer/print_style.dart';
+import 'package:another_imin_printer/enums/print_size_imin.dart';
+import 'package:another_imin_printer/print_style.dart';
 
 import 'imin_printer_platform_interface.dart';
 

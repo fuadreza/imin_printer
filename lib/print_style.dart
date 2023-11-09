@@ -1,5 +1,5 @@
-import 'package:imin_printer/enums/print_style_align.dart';
-import 'package:imin_printer/enums/print_style_font.dart';
+import 'package:another_imin_printer/enums/print_style_align.dart';
+import 'package:another_imin_printer/enums/print_style_font.dart';
 
 class PrintStyle {
   const PrintStyle({
