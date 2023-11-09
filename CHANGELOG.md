@@ -1,3 +1,7 @@
+## 0.1.0
+
+* Fix return `print2ColumnsText` throw error on type cast
+
 ## 0.0.8
 
 * Make camera feature optional in AndroidManifest
