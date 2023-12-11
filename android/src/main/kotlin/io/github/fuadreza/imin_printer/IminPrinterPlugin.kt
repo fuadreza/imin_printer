@@ -117,7 +117,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val bytes = arguments["bytes"] as ByteArray?
             if (bytes != null) {
                 instance.sendRAWData(bytes)
-                result.success(bytes)
+                result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
             }
