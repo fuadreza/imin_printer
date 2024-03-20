@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.imin.image.ILcdManager
 import com.imin.library.IminSDKManager
 import com.imin.library.SystemPropManager
+import com.imin.printer.PrinterHelper
 import com.imin.printerlib.IminPrintUtils
 import com.imin.printerlib.IminPrintUtils.PrintConnectType
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -26,6 +27,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.github.fuadreza.imin_printer.extensions.base64ToBitmap
+import java.util.Arrays
+
 
 
 /** IminPrinterPlugin */
@@ -42,10 +45,12 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
     private lateinit var activity: Activity
-    private lateinit var instance: IminPrintUtils
+    private var instance: IminPrintUtils? = null
     private lateinit var instanceLcdManager: ILcdManager
 
     private var connectType = PrintConnectType.USB
+
+    private val modelArray = arrayOf("W27_Pro", "I23M01", "I23M02", "I23D01", "D4-503 Pro", "D4-504 Pro", "D4-505 Pro", "MS2-11", "MS2-12", "MS1-15")
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "imin_printer")
@@ -72,24 +77,33 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
             val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
-            connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2-Pro")) {
-                PrintConnectType.SPI
-            } else {
-                PrintConnectType.USB
-            }
-
-            try {
-                instance.initPrinter(connectType)
-            } catch (e: Exception) {
-                val newConnectType = if (connectType == PrintConnectType.SPI) {
-                    PrintConnectType.USB
-                } else {
-                    PrintConnectType.SPI
-                }
-                instance.initPrinter(newConnectType)
-            } finally {
-                setDefaultStyle(printSize)
+            if (modelArray.contains(Build.MODEL)) {
+                PrinterHelper.getInstance().initPrinterService(context)
                 result.success("init")
+            } else {
+                connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2-Pro")) {
+                    PrintConnectType.SPI
+                } else {
+                    PrintConnectType.USB
+                }
+
+                if (instance == null) {
+                    instance = IminPrintUtils.getInstance(activity)
+                }
+
+                try {
+                    instance?.initPrinter(connectType)
+                } catch (e: Exception) {
+                    val newConnectType = if (connectType == PrintConnectType.SPI) {
+                        PrintConnectType.USB
+                    } else {
+                        PrintConnectType.SPI
+                    }
+                    instance?.initPrinter(newConnectType)
+                } finally {
+                    setDefaultStyle(printSize)
+                    result.success("init")
+                }
             }
         } else if (call.method == "initLCDManager") {
             try {
@@ -100,7 +114,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.success("initLCDManager")
             }
         } else if (call.method == "getStatus") {
-            val status: Int = instance.getPrinterStatus(connectType)
+            val status: Int? = instance?.getPrinterStatus(connectType)
             result.success(String.format("%d", status))
         } else if (call.method == "getBrandName") {
             val deviceBrand = SystemPropManager.getBrand()
@@ -110,13 +124,13 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             result.success(deviceModel)
         } else if (call.method == "setPrintSize") {
             val printSize = arguments?.get("printSize") as Int?
-            instance.setTextWidth(printSize ?: 384)
+            instance?.setTextWidth(printSize ?: 384)
             result.success("success change size to $printSize")
         } else if (call.method == "printBytes") {
             if (arguments == null) return
             val bytes = arguments["bytes"] as ByteArray?
             if (bytes != null) {
-                instance.sendRAWData(bytes)
+                instance?.sendRAWData(bytes)
                 result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
@@ -127,14 +141,18 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val textAlign = arguments["textAlign"] as Int?
             val textSize = arguments["textSize"] as Int?
             val fontStyle = arguments["fontStyle"] as Int?
-            instance.setAlignment(textAlign ?: 0)
-            instance.setTextSize(textSize ?: 19)
-            instance.setTextStyle(fontStyle ?: 0)
-            if (text != null) {
-                instance.printText(text + "\n")
-                result.success(text)
+            if (instance != null) {
+                instance?.setAlignment(textAlign ?: 0)
+                instance?.setTextSize(textSize ?: 19)
+                instance?.setTextStyle(fontStyle ?: 0)
+                if (text != null) {
+                    instance?.printText(text + "\n")
+                    result.success(text)
+                } else {
+                    result.error("invalid_argument", "argument 'text' not found", null)
+                }
             } else {
-                result.error("invalid_argument", "argument 'text' not found", null)
+                PrinterHelper.getInstance().printText(text + "\n", null)
             }
         } else if (call.method == "print2ColumnsText") {
             if (arguments == null) return
@@ -146,7 +164,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     item as String?
                     listText.add(item)
                 }
-                instance.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
+                instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
                 result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'text' not found", null)
@@ -156,16 +174,16 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val textAlign = arguments["textAlign"] as Int?
             val textSize = arguments["textSize"] as Int?
             val fontStyle = arguments["fontStyle"] as Int?
-            instance.setAlignment(textAlign ?: 0)
-            instance.setTextSize(textSize ?: 19)
-            instance.setTextStyle(fontStyle ?: 0)
+            instance?.setAlignment(textAlign ?: 0)
+            instance?.setTextSize(textSize ?: 19)
+            instance?.setTextStyle(fontStyle ?: 0)
             result.success("success")
         } else if (call.method == "printBitmap") {
             if (arguments == null) return
             var bytes = arguments["bytes"] as ByteArray?
             if (bytes != null) {
                 var bitmap: Bitmap? = convertByteArrayToBitmap(bytes)
-                instance.printSingleBitmap(bitmap)
+                instance?.printSingleBitmap(bitmap)
                 bitmap = null
                 bytes = null
                 result.success("success")
@@ -177,7 +195,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             var stringBase64 = arguments["base64"] as String?
             if (stringBase64 != null) {
                 var bitmap: Bitmap? = stringBase64.base64ToBitmap()
-                instance.printSingleBitmap(bitmap)
+                instance?.printSingleBitmap(bitmap)
                 bitmap = null
                 stringBase64 = null
                 result.success("success")
@@ -185,10 +203,10 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
             }
         } else if (call.method == "fullCut") {
-            instance.fullCut()
+            instance?.fullCut()
             result.success("success")
         } else if (call.method == "partialCut") {
-            instance.partialCut()
+            instance?.partialCut()
             result.success("success")
         } else if (call.method == "sendBitmapBase64LCDScreen") {
             if (arguments == null) return
@@ -217,13 +235,13 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val qrStr = arguments["data"] as String?
             val size = arguments["size"] as Int?
             if (qrStr != null) {
-                instance.setQrCodeSize(size ?: 100)
-                instance.setQrCodeErrorCorrectionLev(51)
-                instance.printQrCode(qrStr, 1)
+                instance?.setQrCodeSize(size ?: 100)
+                instance?.setQrCodeErrorCorrectionLev(51)
+                instance?.printQrCode(qrStr, 1)
             }
             result.success("printQR")
         } else {
-            instance.partialCut()
+            instance?.partialCut()
             result.notImplemented()
         }
     }
@@ -234,7 +252,11 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
-        instance = IminPrintUtils.getInstance(activity)
+        if (modelArray.contains(Build.MODEL)) {
+            PrinterHelper.getInstance().initPrinterService(context)
+        } else {
+            instance = IminPrintUtils.getInstance(activity)
+        }
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
@@ -255,11 +277,11 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     private fun setDefaultStyle(printSize: Int?) {
-        instance.setAlignment(0)
-        instance.setTextSize(19)
-        instance.setTextTypeface(Typeface.MONOSPACE);
-        instance.setTextStyle(Typeface.NORMAL)
-        instance.setTextWidth(printSize ?: 384)
+        instance?.setAlignment(0)
+        instance?.setTextSize(19)
+        instance?.setTextTypeface(Typeface.MONOSPACE);
+        instance?.setTextStyle(Typeface.NORMAL)
+        instance?.setTextWidth(printSize ?: 384)
     }
 
     fun byte2int(src: ByteArray?): IntArray? {
