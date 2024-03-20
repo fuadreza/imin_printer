@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -46,6 +47,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var context: Context
     private lateinit var activity: Activity
     private var instance: IminPrintUtils? = null
+    private var instanceV2: PrinterHelper? = null
     private lateinit var instanceLcdManager: ILcdManager
 
     private var connectType = PrintConnectType.USB
@@ -78,7 +80,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
             if (modelArray.contains(Build.MODEL)) {
-                PrinterHelper.getInstance().initPrinterService(context)
+                instanceV2?.initPrinterService(context)
                 result.success("init")
             } else {
                 connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2-Pro")) {
@@ -142,33 +144,40 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val textSize = arguments["textSize"] as Int?
             val fontStyle = arguments["fontStyle"] as Int?
             if (instance != null) {
-                instance?.setAlignment(textAlign ?: 0)
-                instance?.setTextSize(textSize ?: 19)
-                instance?.setTextStyle(fontStyle ?: 0)
                 if (text != null) {
+                    instance?.setAlignment(textAlign ?: 0)
+                    instance?.setTextSize(textSize ?: 19)
+                    instance?.setTextStyle(fontStyle ?: 0)
                     instance?.printText(text + "\n")
                     result.success(text)
                 } else {
                     result.error("invalid_argument", "argument 'text' not found", null)
                 }
             } else {
-                PrinterHelper.getInstance().printText(text + "\n", null)
+                instanceV2?.setCodeAlignment(textAlign ?: 0)
+                instanceV2?.setTextBitmapSize(textSize ?: 19)
+                instanceV2?.setFontBold(fontStyle == 1)
+                instanceV2?.printText(text + "\n", null)
             }
         } else if (call.method == "print2ColumnsText") {
             if (arguments == null) return
             val arrayText = arguments["texts"] as ArrayList<*>?
             val textSize = arguments["textSize"] as Int?
-            if (arrayText != null) {
-                val listText: MutableList<String> = mutableListOf()
-                arrayText.forEach { item ->
-                    item as String?
-                    listText.add(item)
+                if (arrayText != null) {
+                    val listText: MutableList<String> = mutableListOf()
+                    arrayText.forEach { item ->
+                        item as String?
+                        listText.add(item)
+                    }
+                    if (instance != null) {
+                        instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
+                    } else {
+                        instanceV2?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19), null)
+                    }
+                    result.success("success")
+                } else {
+                    result.error("invalid_argument", "argument 'text' not found", null)
                 }
-                instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
-                result.success("success")
-            } else {
-                result.error("invalid_argument", "argument 'text' not found", null)
-            }
         } else if (call.method == "setStyle") {
             if (arguments == null) return
             val textAlign = arguments["textAlign"] as Int?
@@ -253,7 +262,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
         if (modelArray.contains(Build.MODEL)) {
-            PrinterHelper.getInstance().initPrinterService(context)
+            instanceV2 = PrinterHelper.getInstance()
         } else {
             instance = IminPrintUtils.getInstance(activity)
         }
