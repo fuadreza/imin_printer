@@ -5,18 +5,24 @@ A flutter package to support command on Imin devices
 ## Support
 
 - [x] Android
-- [ ] IOS
+
+## Tested On
+- Imin D1
+- Imin D4 Pro
+- Imin M2-202
+- Imin M2 Pro
+- Swift 2
 
 ## Installation
 
 ```bash
-flutter pub add imin_printer
+flutter pub add another_imin_printer
 ```
 
 ## What this package do
 
 ### Printer Related
-Tested on: Imin D1, Imin D4 Pro, Imin M2-202, Imin M2 Pro
+All printer related command available:
 - [x] Initialize Printer
 - [x] Set print size
 - [x] Get Printer Status
@@ -64,4 +70,14 @@ iminPrinter.printText('Sample Text', printStyle: const PrintStyle(textAlign: Pri
 ### Print 2 Column Text
 ```dart
 iminPrinter.print2ColumnsText(['Left Text', 'Right Text']);
+```
+
+### Print Bytes
+```dart
+iminPrinter.printBytes(Uint8List.fromList([0x1B, 0x40, 0x0A])); // Print raw bytes
+```
+
+### Open Cash Drawer
+```dart
+iminPrinter.openCashDrawer();
 ```

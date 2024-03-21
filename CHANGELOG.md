@@ -1,3 +1,11 @@
+## 0.3.0
+
+* Add support SDK V2 for new Imin Devices
+
+## 0.2.0
+
+* Fix return `printBytes` throw error on type cast
+
 ## 0.1.0
 
 * Fix return `print2ColumnsText` throw error on type cast
