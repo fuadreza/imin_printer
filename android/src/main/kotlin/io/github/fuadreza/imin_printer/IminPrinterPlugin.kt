@@ -77,12 +77,17 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 )
             }
 
-            val deviceModel = SystemPropManager.getModel()
             val printSize = arguments?.get("printSize") as Int?
             if (modelArray.contains(Build.MODEL)) {
-                instanceV2?.initPrinterService(context)
-                result.success("init")
+                try {
+                    instanceV2?.initPrinterService(context)
+                    setDefaultStyle(printSize)
+                    result.success("init")
+                } catch (e: Exception) {
+                    result.error("error", "error exception $e", null)
+                }
             } else {
+                val deviceModel = SystemPropManager.getModel()
                 connectType = if (deviceModel.contains("M2-203") || deviceModel.contains("M2-202") || deviceModel.contains("M2-Pro")) {
                     PrintConnectType.SPI
                 } else {
@@ -157,21 +162,24 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val textAlign = arguments["textAlign"] as Int?
             val textSize = arguments["textSize"] as Int?
             val fontStyle = arguments["fontStyle"] as Int?
-            if (instance != null) {
-                if (text != null) {
+            if (text != null) {
+                if (instance != null) {
                     instance?.setAlignment(textAlign ?: 0)
                     instance?.setTextSize(textSize ?: 19)
                     instance?.setTextStyle(fontStyle ?: 0)
                     instance?.printText(text + "\n")
-                    result.success(text)
+                    result.success("success printText")
+                } else if (instanceV2 != null) {
+                    instanceV2?.setCodeAlignment(textAlign ?: 0)
+                    instanceV2?.setTextBitmapSize(textSize ?: 19)
+                    instanceV2?.setFontBold(fontStyle == 1)
+                    instanceV2?.printText(text + "\n", null)
+                    result.success("success printText")
                 } else {
-                    result.error("invalid_argument", "argument 'text' not found", null)
+                    result.error("error_device", "no connected device found", null)
                 }
             } else {
-                instanceV2?.setCodeAlignment(textAlign ?: 0)
-                instanceV2?.setTextBitmapSize(textSize ?: 19)
-                instanceV2?.setFontBold(fontStyle == 1)
-                instanceV2?.printText(text + "\n", null)
+                result.error("invalid_argument", "argument 'text' not found", null)
             }
         } else if (call.method == "print2ColumnsText") {
             if (arguments == null) return
@@ -184,11 +192,25 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     listText.add(item)
                 }
                 if (instance != null) {
-                    instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
+                    instance?.printColumnsText(
+                        listText.toTypedArray(),
+                        intArrayOf(1, 1),
+                        intArrayOf(0, 2),
+                        intArrayOf(textSize ?: 19, textSize ?: 19)
+                    )
+                    result.success("success")
+                } else if (instanceV2 != null) {
+                    instanceV2?.printColumnsString(
+                        listText.toTypedArray(),
+                        intArrayOf(1, 1),
+                        intArrayOf(0, 2),
+                        intArrayOf(textSize ?: 19, textSize ?: 19),
+                        null
+                    )
+                    result.success("success")
                 } else {
-                    instanceV2?.printColumnsString(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19), null)
+                    result.error("error_device", "no connected device found", null)
                 }
-                result.success("success")
             } else {
                 result.error("invalid_argument", "argument 'text' not found", null)
             }
@@ -226,11 +248,25 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
             }
         } else if (call.method == "fullCut") {
-            instance?.fullCut()
-            result.success("success")
+            if (instance != null) {
+                instance?.fullCut()
+                result.success("success")
+            } else if (instanceV2 != null) {
+                instanceV2?.fullCut()
+                result.success("success")
+            } else {
+                result.error("error_device", "no connected device found", null)
+            }
         } else if (call.method == "partialCut") {
-            instance?.partialCut()
-            result.success("success")
+            if (instance != null) {
+                instance?.partialCut()
+                result.success("success")
+            } else if (instanceV2 != null) {
+                instanceV2?.partialCut()
+                result.success("success")
+            } else {
+                result.error("error_device", "no connected device found", null)
+            }
         } else if (call.method == "sendBitmapBase64LCDScreen") {
             if (arguments == null) return
             var stringBase64 = arguments["base64"] as String?
@@ -281,7 +317,6 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.error("invalid_argument", "argument 'data' not found", null)
             }
         } else {
-            instance?.partialCut()
             result.notImplemented()
         }
     }
