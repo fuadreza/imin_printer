@@ -122,8 +122,15 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val deviceBrand = SystemPropManager.getBrand()
             result.success(deviceBrand)
         } else if (call.method == "getModelName") {
-            val deviceModel = SystemPropManager.getModel()
-            result.success(deviceModel)
+            if (instance != null) {
+                val deviceModel = SystemPropManager.getModel()
+                result.success(deviceModel)
+            } else if (instanceV2 != null) {
+                val deviceModel = Build.MODEL
+                result.success(deviceModel)
+            } else {
+                result.error("error", "no connected device found, cannot get device model", null)
+            }
         } else if (call.method == "setPrintSize") {
             val printSize = arguments?.get("printSize") as Int?
             instance?.setTextWidth(printSize ?: 384)
@@ -132,8 +139,15 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             if (arguments == null) return
             val bytes = arguments["bytes"] as ByteArray?
             if (bytes != null) {
-                instance?.sendRAWData(bytes)
-                result.success("success")
+                if (instance != null) {
+                    instance?.sendRAWData(bytes)
+                    result.success("success")
+                } else if (instanceV2 != null) {
+                    instanceV2?.sendRAWData(bytes, null)
+                    result.success("success")
+                } else {
+                    result.error("error_device", "no connected device found", null)
+                }
             } else {
                 result.error("invalid_argument", "argument 'bytes' not found", null)
             }
@@ -163,21 +177,21 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             if (arguments == null) return
             val arrayText = arguments["texts"] as ArrayList<*>?
             val textSize = arguments["textSize"] as Int?
-                if (arrayText != null) {
-                    val listText: MutableList<String> = mutableListOf()
-                    arrayText.forEach { item ->
-                        item as String?
-                        listText.add(item)
-                    }
-                    if (instance != null) {
-                        instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
-                    } else {
-                        instanceV2?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19), null)
-                    }
-                    result.success("success")
-                } else {
-                    result.error("invalid_argument", "argument 'text' not found", null)
+            if (arrayText != null) {
+                val listText: MutableList<String> = mutableListOf()
+                arrayText.forEach { item ->
+                    item as String?
+                    listText.add(item)
                 }
+                if (instance != null) {
+                    instance?.printColumnsText(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19))
+                } else {
+                    instanceV2?.printColumnsString(listText.toTypedArray(), intArrayOf(1, 1), intArrayOf(0, 2), intArrayOf(textSize ?: 19, textSize ?: 19), null)
+                }
+                result.success("success")
+            } else {
+                result.error("invalid_argument", "argument 'text' not found", null)
+            }
         } else if (call.method == "setStyle") {
             if (arguments == null) return
             val textAlign = arguments["textAlign"] as Int?
@@ -238,17 +252,34 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.success("initLCDManager")
             }
         } else if (call.method == "openCashDrawer") {
-            IminSDKManager.opencashBox()
+            if (instance != null) {
+                IminSDKManager.opencashBox()
+                result.success("success")
+            } else if (instanceV2 != null) {
+                instanceV2?.openDrawer()
+                result.success("success")
+            } else {
+                result.error("error_device", "no connected device found", null)
+            }
         } else if (call.method == "printQR") {
             if (arguments == null) return
             val qrStr = arguments["data"] as String?
             val size = arguments["size"] as Int?
             if (qrStr != null) {
-                instance?.setQrCodeSize(size ?: 100)
-                instance?.setQrCodeErrorCorrectionLev(51)
-                instance?.printQrCode(qrStr, 1)
+                if (instance != null) {
+                    instance?.setQrCodeSize(size ?: 100)
+                    instance?.setQrCodeErrorCorrectionLev(51)
+                    instance?.printQrCode(qrStr, 1)
+                    result.success("printQR")
+                } else if (instanceV2 != null) {
+                    instanceV2?.setQrCodeSize(size ?: 100)
+                    instanceV2?.setQrCodeErrorCorrectionLev(51)
+                    instanceV2?.printQrCodeWithAlign(qrStr, 1, null)
+                    result.success("printQR")
+                }
+            } else {
+                result.error("invalid_argument", "argument 'data' not found", null)
             }
-            result.success("printQR")
         } else {
             instance?.partialCut()
             result.notImplemented()
@@ -286,11 +317,18 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     private fun setDefaultStyle(printSize: Int?) {
-        instance?.setAlignment(0)
-        instance?.setTextSize(19)
-        instance?.setTextTypeface(Typeface.MONOSPACE);
-        instance?.setTextStyle(Typeface.NORMAL)
-        instance?.setTextWidth(printSize ?: 384)
+        if (instance != null) {
+            instance?.setAlignment(0)
+            instance?.setTextSize(19)
+            instance?.setTextTypeface(Typeface.MONOSPACE)
+            instance?.setTextStyle(Typeface.NORMAL)
+            instance?.setTextWidth(printSize ?: 384)
+        } else if (instanceV2 != null) {
+            instanceV2?.setCodeAlignment(0)
+            instanceV2?.setTextBitmapSize(19)
+            instanceV2?.setTextBitmapTypeface("Typeface.MONOSPACE")
+            instanceV2?.setTextBitmapStyle(Typeface.NORMAL)
+        }
     }
 
     fun byte2int(src: ByteArray?): IntArray? {
