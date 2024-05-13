@@ -31,7 +31,6 @@ import io.github.fuadreza.imin_printer.extensions.base64ToBitmap
 import java.util.Arrays
 
 
-
 /** IminPrinterPlugin */
 class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// The MethodChannel that will the communication between Flutter and native Android
@@ -80,7 +79,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val printSize = arguments?.get("printSize") as Int?
             if (modelArray.contains(Build.MODEL)) {
                 try {
-                    instanceV2?.initPrinterService(context)
+                    instanceV2?.initPrinter(context.packageName, null)
                     setDefaultStyle(printSize)
                     result.success("init")
                 } catch (e: Exception) {
@@ -329,6 +328,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         activity = binding.activity
         if (modelArray.contains(Build.MODEL)) {
             instanceV2 = PrinterHelper.getInstance()
+            instanceV2?.initPrinterService(context)
         } else {
             instance = IminPrintUtils.getInstance(activity)
         }
