@@ -1,3 +1,7 @@
+## 0.4.0
+
+* Fix open cash drawer on SDK V2 devices
+
 ## 0.3.0
 
 * Add support SDK V2 for new Imin Devices
