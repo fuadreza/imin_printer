@@ -60,5 +60,5 @@ dependencies {
     implementation files('libs/iminPrinterSDK.jar')
     implementation files('libs/IminLibs1.0.15.jar')
     implementation files('libs/freeimagelibrary.jar')
-    implementation 'com.github.iminsoftware:IminPrinterLibrary:V1.0.0.12'
+    implementation 'com.github.iminsoftware:IminPrinterLibrary:V1.0.0.14'
 }
