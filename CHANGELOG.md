@@ -1,3 +1,7 @@
+## 0.5.0
+
+* Update IminPrinterLibrary to V1.0.0.14
+
 ## 0.4.0
 
 * Fix open cash drawer on SDK V2 devices

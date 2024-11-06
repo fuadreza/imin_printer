@@ -1,6 +1,6 @@
 name: another_imin_printer
 description: Imin plugin for flutter
-version: 0.4.0
+version: 0.5.0
 homepage: https://github.com/fuadreza/imin_printer
 
 environment:
