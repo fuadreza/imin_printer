@@ -11,12 +11,12 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockIminPrinterPlatform
     with MockPlatformInterfaceMixin
     implements IminPrinterPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> initPrinter(PrintSizeImin printSizeImin) => Future.value('init');
+  Future<String?> initPrinter(PrintSizeImin printSizeImin) =>
+      Future.value('init');
 
   @override
   Future<String> getStatus() => Future.value('active');
@@ -32,7 +32,8 @@ class MockIminPrinterPlatform
   }
 
   @override
-  Future<String> print2ColumnsText(List<String> listText, PrintStyle printStyle) {
+  Future<String> print2ColumnsText(
+      List<String> listText, PrintStyle printStyle) {
     return Future.value(listText.first);
   }
 

@@ -1,4 +1,3 @@
-
 /// Enum Print Size
 ///
 /// Used to define print text width

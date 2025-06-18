@@ -13,7 +13,8 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
@@ -22,18 +23,22 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   @override
   Future<String?> initPrinter(PrintSizeImin printSizeImin) async {
     try {
-      return await methodChannel.invokeMethod<String>('initPrinter', {'printSize': printSizeImin.value});
+      return await methodChannel.invokeMethod<String>(
+          'initPrinter', {'printSize': printSizeImin.value});
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for initPrinter() on channel');
+      throw MissingPluginException(
+          'No method found for initPrinter() on channel');
     }
   }
 
   @override
   Future<String?> setPrintSize(PrintSizeImin printSizeImin) async {
     try {
-      return await methodChannel.invokeMethod<String>('setPrintSize', {'printSize': printSizeImin.value});
+      return await methodChannel.invokeMethod<String>(
+          'setPrintSize', {'printSize': printSizeImin.value});
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for setPrintSize() on channel');
+      throw MissingPluginException(
+          'No method found for setPrintSize() on channel');
     }
   }
 
@@ -42,34 +47,42 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
     try {
       return await methodChannel.invokeMethod<String>('getStatus') ?? 'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for getStatus() on channel');
+      throw MissingPluginException(
+          'No method found for getStatus() on channel');
     }
   }
 
   @override
   Future<String> getModelName() async {
     try {
-      return await methodChannel.invokeMethod<String>('getModelName') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('getModelName') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for getModelName() on channel');
+      throw MissingPluginException(
+          'No method found for getModelName() on channel');
     }
   }
 
   @override
   Future<String> getBrandName() async {
     try {
-      return await methodChannel.invokeMethod<String>('getBrandName') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('getBrandName') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for getBrandName() on channel');
+      throw MissingPluginException(
+          'No method found for getBrandName() on channel');
     }
   }
 
   @override
   Future<String> printBytes(Uint8List bytes) async {
     try {
-      return await methodChannel.invokeMethod<String>('printBytes', {'bytes': bytes}) ?? 'invalid';
+      return await methodChannel
+              .invokeMethod<String>('printBytes', {'bytes': bytes}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for printBytes() on channel');
+      throw MissingPluginException(
+          'No method found for printBytes() on channel');
     }
   }
 
@@ -84,41 +97,54 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
           }) ??
           'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for printText() on channel');
+      throw MissingPluginException(
+          'No method found for printText() on channel');
     }
   }
 
   @override
-  Future<String> print2ColumnsText(List<String> listText, PrintStyle printStyle) async {
+  Future<String> print2ColumnsText(
+      List<String> listText, PrintStyle printStyle) async {
     try {
-      return await methodChannel.invokeMethod<String>('print2ColumnsText', {'texts': listText, 'textAlign': printStyle.textSize}) ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('print2ColumnsText',
+              {'texts': listText, 'textAlign': printStyle.textSize}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for print2ColumnsText() on channel');
+      throw MissingPluginException(
+          'No method found for print2ColumnsText() on channel');
     }
   }
 
   @override
   Future<String> printBitmap(Uint8List bytes) async {
     try {
-      return await methodChannel.invokeMethod<String>('printBitmap', {'bytes': bytes}) ?? 'invalid';
+      return await methodChannel
+              .invokeMethod<String>('printBitmap', {'bytes': bytes}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for printBitmap() on channel');
+      throw MissingPluginException(
+          'No method found for printBitmap() on channel');
     }
   }
 
   @override
   Future<String> printBitmapBase64(String base64) async {
     try {
-      return await methodChannel.invokeMethod<String>('printBitmapBase64', {'base64': base64}) ?? 'invalid';
+      return await methodChannel
+              .invokeMethod<String>('printBitmapBase64', {'base64': base64}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for printBitmapBase64() on channel');
+      throw MissingPluginException(
+          'No method found for printBitmapBase64() on channel');
     }
   }
 
   @override
   Future<String> printQR(String data, int size) async {
     try {
-      return await methodChannel.invokeMethod<String>('printQR', {'data': data, 'size': size}) ?? 'invalid';
+      return await methodChannel
+              .invokeMethod<String>('printQR', {'data': data, 'size': size}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
       throw MissingPluginException('No method found for printQR() on channel');
     }
@@ -141,9 +167,11 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   @override
   Future<String> partialCut() async {
     try {
-      return await methodChannel.invokeMethod<String>('partialCut') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('partialCut') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for partialCut() on channel');
+      throw MissingPluginException(
+          'No method found for partialCut() on channel');
     }
   }
 
@@ -163,27 +191,34 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   @override
   Future<String> initLCDManager() async {
     try {
-      return await methodChannel.invokeMethod<String>('initLCDManager') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('initLCDManager') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for initLCDManager() on channel');
+      throw MissingPluginException(
+          'No method found for initLCDManager() on channel');
     }
   }
 
   @override
   Future<String> sendBitmapBase64LCDScreen(String base64) async {
     try {
-      return await methodChannel.invokeMethod<String>('sendBitmapBase64LCDScreen', {'base64': base64}) ?? 'invalid';
+      return await methodChannel.invokeMethod<String>(
+              'sendBitmapBase64LCDScreen', {'base64': base64}) ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for sendBitmapBase64() on channel');
+      throw MissingPluginException(
+          'No method found for sendBitmapBase64() on channel');
     }
   }
 
   @override
   Future<String> clearLCDScreen() async {
     try {
-      return await methodChannel.invokeMethod<String>('clearLCDScreen') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('clearLCDScreen') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for clearLCDScreen() on channel');
+      throw MissingPluginException(
+          'No method found for clearLCDScreen() on channel');
     }
   }
 
@@ -194,9 +229,11 @@ class MethodChannelIminPrinter extends IminPrinterPlatform {
   @override
   Future<String> openCashDrawer() async {
     try {
-      return await methodChannel.invokeMethod<String>('openCashDrawer') ?? 'invalid';
+      return await methodChannel.invokeMethod<String>('openCashDrawer') ??
+          'invalid';
     } on MissingPluginException catch (_) {
-      throw MissingPluginException('No method found for openCashDrawer() on channel');
+      throw MissingPluginException(
+          'No method found for openCashDrawer() on channel');
     }
   }
 
