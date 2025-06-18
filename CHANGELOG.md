@@ -1,3 +1,7 @@
+## 0.6.0
+
+* Update descriptions and fix static analysis issues
+
 ## 0.5.0
 
 * Update IminPrinterLibrary to V1.0.0.14
