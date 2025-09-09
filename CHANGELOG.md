@@ -1,3 +1,7 @@
+## 0.6.1
+
+* Update sdk version to V2.0.0.17
+
 ## 0.6.0
 
 * Update descriptions and fix static analysis issues

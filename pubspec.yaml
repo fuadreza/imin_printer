@@ -1,6 +1,6 @@
 name: another_imin_printer
 description: Flutter plugin to run Imin Printer with support for printing text, images, and QR codes.
-version: 0.6.0
+version: 0.6.1
 homepage: https://github.com/fuadreza/imin_printer
 
 environment:
