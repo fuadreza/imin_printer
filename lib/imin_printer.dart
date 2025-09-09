@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/services.dart';
 import 'package:another_imin_printer/enums/print_size_imin.dart';
 import 'package:another_imin_printer/print_style.dart';
@@ -17,7 +15,9 @@ class IminPrinter {
   ///
   /// Option to Set paper size with [printSizeImin] with
   /// the default value is for 58mm paper.
-  Future<String> initPrinter({PrintSizeImin printSizeImin = PrintSizeImin.mm58}) async {
+  Future<String> initPrinter({
+    PrintSizeImin printSizeImin = PrintSizeImin.mm58,
+  }) async {
     try {
       await IminPrinterPlatform.instance.initPrinter(printSizeImin);
       return 'Success';
@@ -70,7 +70,8 @@ class IminPrinter {
   ///
   /// Add custom style using [PrintStyle] with values.
   /// like alignment, text size, and font style.
-  Future<void> printText(String text, {PrintStyle printStyle = const PrintStyle()}) async {
+  Future<void> printText(String text,
+      {PrintStyle printStyle = const PrintStyle()}) async {
     IminPrinterPlatform.instance.printText(text, printStyle);
   }
 
@@ -78,7 +79,8 @@ class IminPrinter {
   ///
   /// Accept [listText] with only 2 text [String].
   /// Option to add custom style for text size.
-  Future<void> print2ColumnsText(List<String> listText, {PrintStyle printStyle = const PrintStyle()}) async {
+  Future<void> print2ColumnsText(List<String> listText,
+      {PrintStyle printStyle = const PrintStyle()}) async {
     IminPrinterPlatform.instance.print2ColumnsText(listText, printStyle);
   }
 
@@ -156,10 +158,12 @@ class IminPrinter {
 
   //#region CASH DRAWER
 
+  /// Open the cash drawer.
+  ///
+  /// Sends a command to the connected cash drawer to open it.
   Future<void> openCashDrawer() async {
     IminPrinterPlatform.instance.openCashDrawer();
   }
 
   //#endregion CASH DRAWER
-
 }

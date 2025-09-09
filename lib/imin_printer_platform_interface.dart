@@ -61,7 +61,8 @@ abstract class IminPrinterPlatform extends PlatformInterface {
     throw UnimplementedError('printText() has not been implemented.');
   }
 
-  Future<String> print2ColumnsText(List<String> listText, PrintStyle printStyle) {
+  Future<String> print2ColumnsText(
+      List<String> listText, PrintStyle printStyle) {
     throw UnimplementedError('print2ColumnsText() has not been implemented.');
   }
 
@@ -98,7 +99,8 @@ abstract class IminPrinterPlatform extends PlatformInterface {
   }
 
   Future<String> sendBitmapBase64LCDScreen(String base64) {
-    throw UnimplementedError('sendBitmapBase64LCDScreen() has not been implemented.');
+    throw UnimplementedError(
+        'sendBitmapBase64LCDScreen() has not been implemented.');
   }
 
   Future<String> clearLCDScreen() {

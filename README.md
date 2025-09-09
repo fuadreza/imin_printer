@@ -1,6 +1,14 @@
 # Imin Printer
 
-A flutter package to support command on Imin devices
+[![GitHub stars](https://img.shields.io/github/stars/fuadreza/imin_printer.svg?style=social)](https://github.com/fuadreza/imin_printer)
+
+A Flutter package for easy integration with Imin POS devices. 
+Supports advanced printer commands, LCD display management, 
+and cash drawer operations for retail and POS apps.
+
+> **Note:** After version 0.7.0, this package use IminPrinterLibrary SDK V2.0.0.17,
+> which may causing unexpected behavior than older package version
+> since I don't have access to test on Imin Devices.
 
 ## Support
 
@@ -64,7 +72,10 @@ iminPrinter.initPrinter(printSizeImin: PrintSizeImin.mm58);
 
 ### Print Text
 ```dart
-iminPrinter.printText('Sample Text', printStyle: const PrintStyle(textAlign: PrintStyleAlign.center)); // Print text on Center
+iminPrinter.printText(
+  'Sample Text', 
+  printStyle: const PrintStyle(textAlign: PrintStyleAlign.center),
+); // Print text on Center
 ```
 
 ### Print 2 Column Text
@@ -81,3 +92,13 @@ iminPrinter.printBytes(Uint8List.fromList([0x1B, 0x40, 0x0A])); // Print raw byt
 ```dart
 iminPrinter.openCashDrawer();
 ```
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests for any improvements or 
+bug fixes. 
+Make sure to follow the existing code style and include tests where appropriate.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

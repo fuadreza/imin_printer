@@ -1,3 +1,13 @@
+## 0.7.0
+
+* Update sdk version to V2.0.0.17
+* Update gradle version to 8.1.0
+* Update compileSdkVersion to 35
+
+## 0.6.0
+
+* Update descriptions and fix static analysis issues
+
 ## 0.5.0
 
 * Update IminPrinterLibrary to V1.0.0.14
