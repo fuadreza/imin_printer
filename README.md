@@ -6,7 +6,7 @@ A Flutter package for easy integration with Imin POS devices.
 Supports advanced printer commands, LCD display management, 
 and cash drawer operations for retail and POS apps.
 
-> **Note:** After version 0.6.1, this package use IminPrinterLibrary SDK V2.0.0.17,
+> **Note:** After version 0.7.0, this package use IminPrinterLibrary SDK V2.0.0.17,
 > which may causing unexpected behavior than older package version
 > since I don't have access to test on Imin Devices.
 

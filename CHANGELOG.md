@@ -1,6 +1,8 @@
-## 0.6.1
+## 0.7.0
 
 * Update sdk version to V2.0.0.17
+* Update gradle version to 8.1.0
+* Update compileSdkVersion to 35
 
 ## 0.6.0
 
