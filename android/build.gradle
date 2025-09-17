@@ -13,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -60,6 +60,6 @@ android {
 dependencies {
     implementation files('libs/iminPrinterSDK.jar')
     implementation files('libs/IminLibs1.0.15.jar')
-    implementation files('libs/freeimagelibrary.jar')
+//    implementation files('libs/freeimagelibrary.jar')
     implementation 'com.github.iminsoftware:IminPrinterLibrary:V2.0.0.17'
 }
