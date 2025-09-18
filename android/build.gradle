@@ -10,6 +10,9 @@ buildscript {
             allowInsecureProtocol = true
             url 'https://www.jitpack.io'
         }
+        flatDir {
+            dirs '../libs'
+        }
     }
 
     dependencies {
@@ -60,6 +63,6 @@ android {
 dependencies {
     implementation files('libs/iminPrinterSDK.jar')
     implementation files('libs/IminLibs1.0.15.jar')
-    implementation files('libs/freeimagelibrary.jar')
+    implementation files('libs/freeimagelibrary-4-v1.3_2310241200.jar')
     implementation 'com.github.iminsoftware:IminPrinterLibrary:V2.0.0.17'
 }
