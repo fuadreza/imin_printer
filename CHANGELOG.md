@@ -1,3 +1,15 @@
+## 0.7.1
+
+> Note: This release intended to support 16-kb on Android.
+>
+> This may cause unexpected behavior on some devices,
+> I don't have access to test on Imin Devices.
+> So please report any issues you found.
+
+* remove `libfree_image.so`
+* Bump agp version to `8.5.2`
+* Bump freeimagelibrary version to `4-v1.3_2310241200`
+
 ## 0.7.0
 
 * Update sdk version to V2.0.0.17
