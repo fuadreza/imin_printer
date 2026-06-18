@@ -1,3 +1,9 @@
+## 0.7.2
+
+* Update IminPrinterSDK version to 15 v1.3.2
+* Remove old sdk
+* Change init printer to use android api level 32 for sdk v2
+
 ## 0.7.1
 
 > Note: This release intended to support 16-kb on Android.
