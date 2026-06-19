@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
-import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -28,7 +27,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.github.fuadreza.imin_printer.extensions.base64ToBitmap
-import java.util.Arrays
 
 
 /** IminPrinterPlugin */
@@ -77,7 +75,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             val printSize = arguments?.get("printSize") as Int?
-            if (modelArray.contains(Build.MODEL)) {
+            if (isAndroid12()) {
                 try {
                     instanceV2?.initPrinter(context.packageName, null)
                     setDefaultStyle(printSize)
@@ -326,7 +324,7 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
-        if (modelArray.contains(Build.MODEL)) {
+        if (isAndroid12()) {
             instanceV2 = PrinterHelper.getInstance()
             instanceV2?.initPrinterService(context)
         } else {
@@ -413,5 +411,11 @@ class IminPrinterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
         resultBitmap.setPixels(newPx, 0, w, 0, 0, w, h)
         return resultBitmap
+    }
+
+    // Uses SDK 2.0 (PrinterHelper) for Android API >= 32
+    fun isAndroid12(): Boolean {
+        val ANDROID_12_API_LEVEL = 32 // misleading name — actually Android 12
+        return Build.VERSION.SDK_INT >= ANDROID_12_API_LEVEL
     }
 }
